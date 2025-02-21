@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0" /> ==>--> 
+    <meta name="viewport" content="width=375, user-scalable=no">
+
+    <title>Agendador de Eventos</title>
+
+    <!-- Firebase SDK (versão compatível com navegadores) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="//code.tidio.co/f0o1iu98vdtfbv5nkj6ptwcevaabipwd.js" async></script>
+
+    <!-- Seu script deve ser carregado depois do Firebase -->
+    <script src="script.js" defer></script>
+
+    <!-- Importação do WebAuthn -->
+    <script type="module" src="script.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Event Recorder</h1>
+        <p id="userInfo" aria-live="polite"></p>
+        <button id="loginGoogle" class="loginbiometrico" aria-label="Google Login">Google Login</button>
+        <button id="logout" class="loginbiometrico" style="display: none" aria-label="Logout">Logout</button>
+      </header>
+
+      <main>
+        <section class="event-form">
+          <h2>Add new event</h2>
+          <form id="eventForm">
+            <label for="eventName">Event name:</label>
+            <input type="text" id="eventName" name="eventName" required aria-label="Event name"/>
+
+            <label for="eventDate">Event date:</label>
+            <input type="date" id="eventDate" name="eventDate" required aria-label="Event date"/>
+
+            <label for="eventTime">Event time:</label>
+            <input type="time" id="eventTime" name="eventTime" required aria-label="Event time"/>
+
+            <label for="eventDescription">Event description:</label>
+            <textarea
+              id="eventDescription"
+              name="eventDescription"
+              rows="3"
+              aria-label="Event description"
+            ></textarea>
+
+            <button type="submit" aria-label="Add Event">Add Event</button>
+          </form>
+        </section>
+
+        <section class="event-list">
+          <h2>Event list</h2>
+          <ul id="eventList" aria-label="Event List" role="list"></ul></ul>
+        </section>
+      </main>
+
+      <footer>
+        <p>Leandro Sena - 1094444</p>
+      </footer>
+    </div>
+  </body>
+</html>
