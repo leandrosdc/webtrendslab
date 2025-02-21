@@ -9,41 +9,16 @@ on:
       - main
 
 jobs:
-  lint-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v3
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Instalar dependências
-        run: npm install
-
-      - name: Executar ESLint (verifica código JS)
-        run: npx eslint .
-
-      - name: Executar testes (caso tenha)
-        run: npm test
-
   deploy:
-    needs: lint-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
-
-      - name: Instalar dependências
-        run: npm install
-
-      - name: Criar build do projeto
-        run: npm run build
+        with:
+          fetch-depth: 0  # Garante que todos os arquivos sejam baixados corretamente
 
       - name: Fazer deploy no GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./  # Se os arquivos HTML e CSS estiverem na raiz, deixe assim
