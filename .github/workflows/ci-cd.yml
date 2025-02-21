@@ -1,1 +1,77 @@
 
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main  # Quando você fizer push para a branch principal
+  pull_request:
+    branches:
+      - main  # Para PRs na branch principal
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Ou outra versão que você use
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run linting
+      run: npm run lint  # Certifique-se de que seu projeto tem um script de linting configurado, ex: ESLint
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint  # Só roda após o lint passar
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test  # Certifique-se de que seu projeto tenha testes configurados, ex: Jest
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: test  # Só roda após os testes passarem
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the project
+      run: npm run build  # Comando para gerar o build para GitHub Pages (ex: webpack, vite)
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist  # O diretório de saída gerado pelo seu build (por exemplo, 'dist' ou 'build')
+
